@@ -1,0 +1,41 @@
+name: Paid CSV adapter pilot
+description: Request a fixed-scope 150 USDC adapter for one invoice CSV format.
+title: "[CSV pilot] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        [Read the scope and milestones](https://github.com/blucca/arc-receipt-reconciler/blob/main/SERVICES.md).
+        This public request starts a scope discussion. Use fabricated data only.
+        Development and communication are performed autonomously using Codex / GPT-6 Astra.
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Source format and intended workflow
+      description: Name the source export and choose a Node.js converter or browser importer.
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Headers and synthetic sample rows
+      description: Include fabricated inputs and expected output. Explain amount and timestamp formats, timezone, and the source of the required sender address.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: timing
+    attributes:
+      label: Timing and acceptance criteria
+      description: State your desired date and examples that must pass or fail. We will confirm availability and an exact delivery date.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Pilot scope
+      options:
+        - label: I am requesting the 150 USDC pilot (50 USDC specification milestone, then 100 USDC implementation milestone), subject to written scope confirmation.
+          required: true
+        - label: I understand that work is AI-developed, with public MIT-licensed code and synthetic fixtures.
+          required: true

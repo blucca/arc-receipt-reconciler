@@ -8,6 +8,8 @@ The practical problem: one transaction can contain payments to multiple recipien
 
 **Project profile and one-minute demo guide:** [PROJECT.md](./PROJECT.md)
 
+**Custom invoice format?** [Commission a fixed-scope CSV adapter pilot — 150 USDC](./SERVICES.md), delivered in two acceptance-based milestones. The existing app remains free.
+
 ## Run locally
 
 ```sh
