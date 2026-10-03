@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Arc Receipt Reconciler — local invoice evidence</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+<header class="wrap">
+  <div class="eyebrow">ARC MAINNET · READ-ONLY · NO WALLET CONNECTION</div>
+  <h1>Receipt Reconciler<span>.</span></h1>
+  <p class="intro">One transaction can pay many people. Reconcile the individual receipts, keep the evidence, and confirm what each payment belongs to.</p>
+  <div class="privacy">Your invoice CSV stays in this browser. No analytics, third-party scripts, uploads, signing, or payments. RPC requests happen only when you click a fetch button.</div>
+</header>
+<main class="wrap">
+  <section class="panel">
+    <div class="section-title"><h2>1. Your receivables</h2><div class="actions"><button id="sample" class="secondary" type="button">Load synthetic example</button><button id="public-sample" class="secondary" type="button">Fetch public mainnet example</button></div></div>
+    <label for="recipient">Receiving address</label>
+    <input id="recipient" autocomplete="off" spellcheck="false" placeholder="0x… (your public receiving address)">
+    <div class="network-note">Arc mainnet · chain 5042 · canonical system USDC events · 18 decimal places</div>
+    <label for="invoices">Invoice CSV <span class="muted">— sender, amount, and inclusive UTC payment window</span></label>
+    <textarea id="invoices" rows="7" spellcheck="false" placeholder="invoice_id,sender,amount,not_before,not_after"></textarea>
+    <div class="file-row"><label class="file-label">Open a local CSV <input id="invoice-file" type="file" accept=".csv,text/csv"></label><span class="muted">Amounts are exact decimal strings. Timestamps require UTC Z.</span></div>
+  </section>
+
+  <section class="panel">
+    <h2>2. Receipt evidence</h2>
+    <p class="small">Arc emits both a canonical system event (18 decimals) and, for ERC-20 calls, a 6-decimal mirror. This adapter uses only the system event, so one payment is never counted twice.</p>
+    <details id="rpc-options">
+      <summary>Fetch public Arc mainnet data (optional)</summary>
+      <div class="rpc-content">
+        <label for="rpc">RPC endpoint</label>
+        <select id="rpc"><option value="https://rpc.mainnet.arc.io">rpc.mainnet.arc.io</option><option value="https://rpc.blockdaemon.mainnet.arc.io">rpc.blockdaemon.mainnet.arc.io</option></select>
+        <p class="small muted">The RPC provider sees the requested public address / block range / transaction hash, never your invoice CSV. Network identity is checked before reads.</p>
+        <label for="tx-hash">Known transaction hash</label>
+        <div class="inline"><input id="tx-hash" autocomplete="off" spellcheck="false" placeholder="0x…64 hex characters"><button id="fetch-tx" type="button">Fetch transaction</button></div>
+        <div class="range"><div><label for="from-block">From block</label><input id="from-block" inputmode="numeric" placeholder="Explicit start"></div><div><label for="to-block">To block (inclusive)</label><input id="to-block" inputmode="numeric" placeholder="Explicit end"></div><button id="fetch-range" type="button">Fetch incoming receipts</button></div>
+        <p class="small muted">Maximum 1,000 blocks per range. Fetching replaces the current transfer evidence. These are read-only requests; no gas is spent.</p>
+      </div>
+    </details>
+    <label for="transfers">Normalized transfers JSON <span class="muted">— or paste your own offline evidence</span></label>
+    <textarea id="transfers" rows="8" spellcheck="false" placeholder='[{"chainId":5042,"txHash":"0x…","logIndex":0,"from":"0x…","to":"0x…","atomicAmount":"1000000000000000000","decimals":18,"timestamp":"2026-10-03T12:00:00Z"}]'></textarea>
+    <p id="provenance" class="small source-note">Imported JSON is unverified input. Only canonical system events belong in Arc input; JSON alone cannot establish token provenance.</p>
+    <div class="actions"><button id="reconcile" type="button">Reconcile locally</button><button id="export" class="secondary" type="button" disabled>Export JSON evidence</button><button id="clear" class="quiet" type="button">Clear all data</button></div>
+    <p id="message" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="results" hidden aria-labelledby="results-title">
+    <h2 id="results-title">3. Review and attribute</h2>
+    <div class="notice"><strong>A matching amount is a candidate, not proof of business attribution.</strong> Select the receipts you recognize, then explicitly confirm their invoice allocation. Partial payments remain partial. A receipt can belong to only one invoice.</div>
+    <div id="totals" class="totals"></div>
+    <div id="ambiguity" class="notice" hidden></div>
+    <div id="invoice-results"></div>
+    <details class="panel"><summary>Deduplication, exclusions, and gas</summary><pre id="audit"></pre></details>
+  </section>
+</main>
+<footer class="wrap"><p>Built autonomously with Codex / GPT-6 Astra · local-only by default.</p><p>Receipt deduplication: <code>chainId:txHash:logIndex</code>. No automatic invoice-ownership or finality proof. <a href="https://github.com/blucca/arc-receipt-reconciler#readme">Method and limitations</a> · <a href="https://docs.arc.io/arc/references/usdc-system-events.md" target="_blank" rel="noreferrer">Official Arc event semantics</a></p></footer>
+</body>
+</html>
