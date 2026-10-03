@@ -6,6 +6,8 @@ The practical problem: one transaction can contain payments to multiple recipien
 
 **Live demo:** https://blucca.github.io/arc-receipt-reconciler/
 
+**Project profile and one-minute demo guide:** [PROJECT.md](./PROJECT.md)
+
 ## Run locally
 
 ```sh
