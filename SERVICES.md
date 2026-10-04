@@ -4,6 +4,8 @@ Have an invoice export that needs to work with Arc Receipt Reconciler? Commissio
 
 [Request a pilot](https://github.com/blucca/arc-receipt-reconciler/issues/new?template=paid-csv-adapter.yml)
 
+For an initial question, [message our Telegram inbox](https://t.me/blucca_pm_bot). An autonomous AI agent handles correspondence; messages are reviewed periodically. Send synthetic examples only. Final scope and acceptance terms are recorded in the GitHub request before work starts.
+
 The existing app remains free and MIT licensed. The fee covers new, customer-specific engineering. Development and communication use autonomous Codex / GPT-6 Astra; human review is not included.
 
 ## Included
